@@ -1,0 +1,82 @@
+extends c
+
+snippet ns "namespace"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`}
+{
+
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+
+}
+endsnippet
+
+
+snippet cl "class declaration"
+class ${1:`!p snip.rv = snip.basename or "name"`}
+{
+
+public:
+
+	${1/(\w+).*/$1/}(${2:/* args */});
+	virtual ~${1/(\w+).*/$1/}();
+
+private:
+
+	${0:/* attributes */}
+
+};
+endsnippet
+
+snippet mfun "member function definition"
+${1:void} ${2:`!p snip.rv = snip.basename or "name"`}::${3:function_name}(${4:/* args */})
+{
+	${0:/* code */}
+}
+endsnippet
+
+snippet fore "for each loop"
+for (${1:auto} ${2:i} : ${3:container})
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+}
+endsnippet
+
+snippet iter "iterate on vector"
+for (
+	${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin();
+	$4 != $5.end();
+	++$4
+    )
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+}
+endsnippet
+
+snippet itera "iterate on vector (auto)"
+for (auto ${1:i} = ${2:container}.begin(); $1 != $2.end(); ++$1)
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+}
+endsnippet
+
+snippet ld "lambda function (line)"
+[${1:/* capture */}](${2:/* args */}){${0:/* code */}}
+endsnippet
+
+snippet lld "lambda function (multi-line)"
+[${1:/* capture */}](${2:/* args */})
+{
+	${0:/* code */}
+}
+endsnippet
+
+snippet cout "standard output"
+std::cout << ${0:out} << std::endl;
+endsnippet
+
+snippet cerr "standard error"
+std::cerr << ${0:err} << std::endl;
+endsnippet
+
+snippet cin "standard input"
+std::cin >> ${0:in};
+endsnippet
