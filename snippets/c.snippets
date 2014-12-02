@@ -46,7 +46,7 @@ snippet Inc "#include <...>"
 #include <${0:`!p snip.rv = snip.basename + '.h'`}>
 endsnippet
 
-snippet main "main(int argc, char **argv)"
+snippet main "main(int argc, char** argv)"
 int main(int argc, char **argv)
 {
 	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
