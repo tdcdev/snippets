@@ -18,17 +18,37 @@ class ${1:`!p snip.rv = snip.basename or "name"`}
 		${1/(\w+).*/$1/}(${2:/* args */});
 		virtual ~${1/(\w+).*/$1/}();`!p
 lines = t[3]
-regex = r'((\w|\:)+)\s+m_(\w+);'
+regex = r'((\w|\:|\s)+)\s+m_(\w+);'
 snip >> 2
 words = []
+primitive = [
+'int',
+'unsigned int',
+'long int',
+'long unsigned int',
+'long long int',
+'long long unsigned int',
+'char',
+'unsigned char',
+'bool',
+'float',
+'double',
+'long double'
+]
 for line in lines.split('\n'):
 	match = re.search(regex, line)
 	if match:
 		words.append([match.group(1), match.group(3)])
 for word in words:
-	snip += '%s %s() const;' % (word[0], word[1])
+	if word[0] in primitive:
+		snip += '%s %s() const;' % (word[0], word[1])
+	else:
+		snip += 'const %s& %s() const;' % (word[0], word[1])
 for word in words:
-	snip += '%s set%s(%s %s);' % (word[0], word[1].title(), word[0], word[1])
+	if word[0] in primitive:
+		snip += 'void set%s(%s %s);' % (word[1].title(), word[0], word[1])
+	else:
+		snip += 'void set%s(const %s& %s);' % (word[1].title(), word[0], word[1])
 `
 
 	private:
