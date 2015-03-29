@@ -10,7 +10,7 @@ namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`}
 endsnippet
 
 snippet cl "class declaration"
-class ${1:`!p snip.rv = snip.basename or "name"`}
+class ${1:`!p snip.rv = snip.basename.title() or "name"`}
 {
 
 	public:
@@ -38,7 +38,7 @@ primitive = [
 for line in lines.split('\n'):
 	match = re.search(regex, line)
 	if match:
-		words.append([match.group(1), match.group(3)])
+		words.append([match.group(1).strip(), match.group(3).strip()])
 for word in words:
 	if word[0] in primitive:
 		snip += '%s %s() const;' % (word[0], word[1])
@@ -76,7 +76,7 @@ snippet iter "iterate on vector"
 for (
 	${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin();
 	$4 != $5.end();
-	++$4
+	$4++
     )
 {
 	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
